@@ -1,5 +1,6 @@
 package br.com.adamastor.empresa.service;
 
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.adamastor.empresa.model.Cargo;
@@ -20,16 +25,17 @@ import br.com.adamastor.empresa.repository.UnidadeTrabalhoRepository;
 @Service
 public class CrudFuncionarioService {
 	
+	private Boolean system = true;
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	private final FuncionarioRepository funcionarioRepository;
 	private final CargoRepository cargoRepository;
 	private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
 	
-	private Boolean system = true;
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	
 	
 	public CrudFuncionarioService (FuncionarioRepository funcionarioRepository, 
-			CargoRepository CargoRepository,UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
+			CargoRepository CargoRepository,
+			UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
 		this.funcionarioRepository = funcionarioRepository;
 		this.cargoRepository = CargoRepository;
 		this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
@@ -54,7 +60,7 @@ public class CrudFuncionarioService {
 				atualizar(scanner);
 				break;
 			case 3:
-				visualizar();
+				visualizar(scanner);
 				break;
 			case 4:
 				deletar(scanner);
@@ -126,9 +132,17 @@ public class CrudFuncionarioService {
         System.out.println("Alterado");
 	}
 	
-	private void visualizar() {
+	private void visualizar(Scanner scanner) {
+		System.out.println("Qual página: ");
+		Integer page = scanner.nextInt();
+		Pageable pegeable = PageRequest.of(page, 2, Sort.unsorted());
+		
 		System.out.println("FUNCIONÁRIOS:");
-		Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
+		Page<Funcionario> funcionarios = funcionarioRepository.findAll(pegeable);
+		
+		System.out.println(funcionarios);
+		System.out.println("Página atual " + (funcionarios.getNumber()+1));
+		System.out.println("Total de elementos " + funcionarios.getTotalElements());
 		funcionarios.forEach(System.out::println);
 	}
 	

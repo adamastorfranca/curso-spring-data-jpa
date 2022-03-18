@@ -82,4 +82,11 @@ public class Funcionario {
 	public void setUnidadeTrabalhos(List<UnidadeTrabalho> unidadeTrabalhos) {
 		this.unidadeTrabalhos = unidadeTrabalhos;
 	}
+	@Override
+	public String toString() {
+		return "Funcionario [Id = " + id + ", Nome = " + nome + ", CPF = " + cpf + ", Salário = " + salario
+				+ ", Data da contratação = " + dataContratacao + "]";
+	}
+	
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.adamastor.empresa.service.CrudCargoService;
 import br.com.adamastor.empresa.service.CrudFuncionarioService;
 import br.com.adamastor.empresa.service.CrudUnidadeTrabalhoService;
+import br.com.adamastor.empresa.service.RelatoriosService;
 
 @SpringBootApplication
 public class EmpresaApplication implements CommandLineRunner{
@@ -16,14 +17,17 @@ public class EmpresaApplication implements CommandLineRunner{
 	private final CrudCargoService crudCargoService;
 	private final CrudFuncionarioService crudFuncionarioService;
 	private final CrudUnidadeTrabalhoService crudUnidadeTrabalhoService;
+	private final RelatoriosService relatoriosService;
 	private Boolean system = true;
 	
 	public EmpresaApplication(CrudFuncionarioService crudFuncionarioService, 
 			CrudCargoService crudCargoService,
-			CrudUnidadeTrabalhoService crudUnidadeTrabalhoService) {
+			CrudUnidadeTrabalhoService crudUnidadeTrabalhoService,
+			RelatoriosService relatoriosService) {
 		this.crudFuncionarioService = crudFuncionarioService;
 		this.crudCargoService = crudCargoService;
 		this.crudUnidadeTrabalhoService = crudUnidadeTrabalhoService;
+		this.relatoriosService = relatoriosService;
 	}
 	
 	public static void main(String[] args) {
@@ -39,6 +43,7 @@ public class EmpresaApplication implements CommandLineRunner{
 			System.out.println("1 - Funcionario");
 			System.out.println("2 - Cargo");
 			System.out.println("3 - Unidade de trabalho");
+			System.out.println("4 - Relatórios");
 			System.out.println("0 - Sair");
 			
 			int opcao = scanner.nextInt();
@@ -51,7 +56,10 @@ public class EmpresaApplication implements CommandLineRunner{
 				break;
 			case 3:
 				crudUnidadeTrabalhoService.inicial(scanner);
-				break;			
+				break;	
+			case 4:
+				relatoriosService.inicial(scanner);
+				break;
 			default:
 				system = false;
 				break;
