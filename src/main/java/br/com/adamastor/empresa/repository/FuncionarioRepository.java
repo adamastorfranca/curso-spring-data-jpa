@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.adamastor.empresa.model.Funcionario;
+import br.com.adamastor.empresa.model.FuncionarioProjecao;
 
 @Repository
-public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Integer> {
+public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Integer>, 
+												JpaSpecificationExecutor<Funcionario>{
 
 	//Derived query
 	List<Funcionario> findByNome(String nome);
@@ -34,4 +37,7 @@ public interface FuncionarioRepository extends PagingAndSortingRepository<Funcio
 	
 	@Query(value = "SELECT * FROM funcionarios  AS f WHERE f.data_contratacao >= :dataContratacao", nativeQuery = true)
 	List<Funcionario> findDataContratacaoMaior(LocalDate dataContratacao);
+	
+	@Query(value = "SELECT id, nome, salario FROM funcionarios", nativeQuery = true)
+	List<FuncionarioProjecao> findFuncionarioSalario();
 }

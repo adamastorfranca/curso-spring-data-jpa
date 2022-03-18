@@ -135,7 +135,7 @@ public class CrudFuncionarioService {
 	private void visualizar(Scanner scanner) {
 		System.out.println("Qual página: ");
 		Integer page = scanner.nextInt();
-		Pageable pegeable = PageRequest.of(page, 2, Sort.unsorted());
+		Pageable pegeable = PageRequest.of(page, 2, Sort.by(Sort.Direction.ASC, "nome"));
 		
 		System.out.println("FUNCIONÁRIOS:");
 		Page<Funcionario> funcionarios = funcionarioRepository.findAll(pegeable);

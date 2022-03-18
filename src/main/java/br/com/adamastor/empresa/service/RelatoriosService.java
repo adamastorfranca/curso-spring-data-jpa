@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.adamastor.empresa.model.Funcionario;
+import br.com.adamastor.empresa.model.FuncionarioProjecao;
 import br.com.adamastor.empresa.repository.FuncionarioRepository;
 
 @Service
@@ -39,6 +40,7 @@ public class RelatoriosService {
 			System.out.println("6 - Busca de funcionários por Unidade de trabalho");
 			System.out.println("7 - Busca de funcionários por data de contratação maoir que...");
 			System.out.println("8 - Busca de funcionário por nome com paginação");
+			System.out.println("9 - Relatório de funcionários mostrando apenas salário");
 			System.out.println("0 - Voltar");
 			
 			int opcao = scanner.nextInt();
@@ -68,12 +70,16 @@ public class RelatoriosService {
 			case 8:
 				buscarPorNomeComPaginacao(scanner);
 				break;
+			case 9:
+				relatorioDeFuncinariosSalario();
+				break;
 			default:
 				system = false;
 				break;
 			}
 		}
 	}
+
 
 	private void buscarPorNome(Scanner scanner) {
 		System.out.println("Nome: ");
@@ -141,5 +147,11 @@ public class RelatoriosService {
 		System.out.println("Página atual " + (resultado.getNumber()+1));
 		System.out.println("Total de elementos " + resultado.getTotalElements());
 		resultado.forEach(System.out::println);
+	}
+	
+	private void relatorioDeFuncinariosSalario() {
+		List<FuncionarioProjecao> lista = funcionarioRepository.findFuncionarioSalario();
+		lista.forEach(f -> System.out.printf("Funcionário ID: %d, Nome: %s, Salário: R$ %s\n", f.getId(), f.getNome(), f.getSalario()));
+		
 	}
 }

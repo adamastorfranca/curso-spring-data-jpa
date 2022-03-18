@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.adamastor.empresa.service.CrudCargoService;
 import br.com.adamastor.empresa.service.CrudFuncionarioService;
 import br.com.adamastor.empresa.service.CrudUnidadeTrabalhoService;
+import br.com.adamastor.empresa.service.RelatorioFuncionarioDinamico;
 import br.com.adamastor.empresa.service.RelatoriosService;
 
 @SpringBootApplication
@@ -18,16 +19,19 @@ public class EmpresaApplication implements CommandLineRunner{
 	private final CrudFuncionarioService crudFuncionarioService;
 	private final CrudUnidadeTrabalhoService crudUnidadeTrabalhoService;
 	private final RelatoriosService relatoriosService;
+	private final RelatorioFuncionarioDinamico relatorioFuncionarioDinamico;
 	private Boolean system = true;
 	
 	public EmpresaApplication(CrudFuncionarioService crudFuncionarioService, 
 			CrudCargoService crudCargoService,
 			CrudUnidadeTrabalhoService crudUnidadeTrabalhoService,
-			RelatoriosService relatoriosService) {
+			RelatoriosService relatoriosService,
+			RelatorioFuncionarioDinamico relatorioFuncionarioDinamico) {
 		this.crudFuncionarioService = crudFuncionarioService;
 		this.crudCargoService = crudCargoService;
 		this.crudUnidadeTrabalhoService = crudUnidadeTrabalhoService;
 		this.relatoriosService = relatoriosService;
+		this.relatorioFuncionarioDinamico = relatorioFuncionarioDinamico;
 	}
 	
 	public static void main(String[] args) {
@@ -44,6 +48,7 @@ public class EmpresaApplication implements CommandLineRunner{
 			System.out.println("2 - Cargo");
 			System.out.println("3 - Unidade de trabalho");
 			System.out.println("4 - Relatórios");
+			System.out.println("5 - Relatório dinâmico");
 			System.out.println("0 - Sair");
 			
 			int opcao = scanner.nextInt();
@@ -59,6 +64,9 @@ public class EmpresaApplication implements CommandLineRunner{
 				break;	
 			case 4:
 				relatoriosService.inicial(scanner);
+				break;
+			case 5:
+				relatorioFuncionarioDinamico.inicial(scanner);
 				break;
 			default:
 				system = false;
